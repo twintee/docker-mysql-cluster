@@ -4,19 +4,16 @@
 import os
 import sys
 from os.path import join, dirname, abspath, isfile, isdir
-import datetime
-import zipfile
 import subprocess as sp
 import argparse
-import shutil
 
 from dotenv import load_dotenv
 
 dir_scr = abspath(dirname(__file__))
-dir_base = abspath(join(dir_scr, "..", "..", ".."))
+dir_base = abspath(join(dir_scr, ".."))
 sys.path.append(dir_base)
 import helper as fn
-from mysql.mnt.scr import replicator as rep
+from rep import replicator as rp
 
 os.chdir(dir_scr)
 file_env = join(dir_scr, ".env")
@@ -25,7 +22,7 @@ def main(_args):
     """
     initialize container
     """
-    env_dst = join(dir_scr, "..", "..", '.env')
+    env_dst = join(dir_scr, "..", '.env')
     envs = fn.getenv(env_dst)
 
     node = envs["NODE"]
@@ -42,7 +39,7 @@ def main(_args):
     database = envs['MYSQL_DATABASE']
     if _args.all:
         database = "all"
-    dump_path = rep.getdump_docker(container
+    dump_path = rp.getdump_docker(container
             , dir_dump
             , f"{envs['OPTROOT']} -u root"
             , database

@@ -5,19 +5,15 @@ from json import dump
 import os
 import sys
 from os.path import join, dirname, abspath, isfile, isdir, splitext, basename
-import datetime
-import zipfile
-import subprocess as sp
 import argparse
-import shutil
 
 from dotenv import load_dotenv
 
 dir_scr = abspath(dirname(__file__))
-dir_base = join(dir_scr, "..", "..", "..")
+dir_base = join(dir_scr, "..")
 sys.path.append(dir_base)
 import helper as fn
-from mysql.mnt.scr import replicator as rep
+from rep import replicator as rp
 
 os.chdir(dir_scr)
 file_env = join(dir_scr, ".env")
@@ -26,7 +22,7 @@ def main(_args):
     """
     initialize container
     """
-    env_dst = join(dir_scr, "..", "..", '.env')
+    env_dst = join(dir_scr, "..", '.env')
     envs = fn.getenv(env_dst)
 
     node = envs["NODE"]
@@ -50,7 +46,7 @@ def main(_args):
                 f"{mysql_cmd} -e 'STOP SLAVE'",
                 f"{mysql_cmd} -e 'RESET SLAVE'",
             ]
-            for line in rep.cmdrun(_cmd=cmds, _encode="utf8"):
+            for line in rp.cmdrun(_cmd=cmds, _encode="utf8"):
                 sys.stdout.write(line)
 
     # リストア対象の指定
@@ -74,18 +70,18 @@ def main(_args):
             f"{mysql_cmd} -e 'SET PERSIST innodb_flush_log_at_trx_commit = 0'",
             f"{mysql_cmd} -e 'SET PERSIST sync_binlog = 0'",
         ]
-        for line in rep.cmdrun(_cmd=cmds):
+        for line in rp.cmdrun(_cmd=cmds):
             sys.stdout.write(line)
 
         cmds = [f"{dk_cmd} bash -c 'mysql {envs['OPTROOT']} < {path_dump}'"]
-        for line in rep.cmdrun(_cmd=cmds, _encode="utf8"):
+        for line in rp.cmdrun(_cmd=cmds, _encode="utf8"):
             sys.stdout.write(line)
 
         cmds = [
             f"{mysql_cmd} -e 'SET PERSIST innodb_flush_log_at_trx_commit = 1'",
             f"{mysql_cmd} -e 'SET PERSIST sync_binlog = 1'",
         ]
-        for line in rep.cmdrun(_cmd=cmds):
+        for line in rp.cmdrun(_cmd=cmds):
             sys.stdout.write(line)
 
         path_status = join(dir_dump_ref, "status.txt")
@@ -115,13 +111,13 @@ MASTER_PORT={envs['MASTER_PORT']}, \
 MASTER_USER='rep', \
 MASTER_PASSWORD='{envs['MYSQL_REP_PASSWORD']}';\
 \""
-            for line in rep.cmdrun(_cmd=[cmd], _encode="utf8"):
+            for line in rp.cmdrun(_cmd=[cmd], _encode="utf8"):
                 sys.stdout.write(line)
 
             cmds = [
                 f"{dk_cmd} bash -c \"mysql {envs['OPTROOT']} -e 'START SLAVE;'\"",
             ]
-            for line in rep.cmdrun(_cmd=cmds, _encode="utf8"):
+            for line in rp.cmdrun(_cmd=cmds, _encode="utf8"):
                 sys.stdout.write(line)
 
 
