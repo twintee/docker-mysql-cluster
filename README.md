@@ -6,8 +6,9 @@
 
 ## 🌏 検証済み環境
 - ubuntu :16.*, 18.*
-- windows10  
-sudo コマンドはwindowsの管理者権限に置き換えて実施  
+    windowsも問題ないと思うが以下注意  
+    - sudo コマンドはwindowsの管理者権限に置き換えて実施  
+    - `git config --global core.autocrlf input`で改行設定変えてからこのリポジトリをclone
 
 ## ⚙ 使用法
 - ノード生成
