@@ -34,14 +34,6 @@ def main(_args):
         req_keys.append('MASTER_PORT')
         req_keys.append('MASTER_SERVER_ID')
         params['MASTER_HOST'] = fn.local_ip()
-        cluster_json = join(dir_scr, "mnt", "scr", _args.node, "cluster.json")
-        fn.setjson(cluster_json, {
-            "master": {
-                "id": params["MASTER_SERVER_ID"],
-                "host": params["MASTER_HOST"],
-            },
-            "slave": [],
-        })
     elif _args.node == 'slave':
         req_keys.append('SLAVE_PORT')
         req_keys.append('SLAVE_SERVER_ID')
