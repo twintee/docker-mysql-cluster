@@ -1,16 +1,18 @@
-# dk_alp
-private docker-compose
+# docker-mysql-cluster
 
-require
+## 📚 概要
+私用で作ったmysqlのクラスタノード作成用docker-composeとその他諸々  
+基本pythonでコンテナの外から制御したい  
+
+## 🌏 検証済み環境
 - ubuntu :16.*, 18.*
 
-include
-- db container
-    - mysql
-- cache container
-    - redis(include manager/slave node)
-- application container
-    - nginx
-    - php7.4(with composer)
+## ⚙ 使用法
 
-git repository not include env and shells in local settings.
+1. 必要モジュール
+  - python-dotenv
+  `pip install python-dotenv`
+
+1. config.pyで必要情報を.envに書き出したり情報を付与したマウント用ファイルを生成する
+  `python3 config.py master`  
+  - slaveを作る場合はargsをslaveに切り替え
