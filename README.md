@@ -14,15 +14,15 @@ sudo コマンドはwindowsの管理者権限に置き換えて実施
     1. 必要モジュール
         - python-dotenv  
         `pip install python-dotenv`
-    1. config.pyで必要情報を.envに書き出したり情報を付与したマウント用ファイルを生成する
+    1. `config.py`を実行。応答で必要情報を.envに書き出したり情報を付与したマウント用ファイルを生成する。  
         - masterを作る場合  
         `python3 config.py master`  
         - slaveを作る場合  
         `python3 config.py slave`  
-        - master/slaveを１ホストで作る場合は上記コマンドを両方実施
-    1. イメージ作成  
+        - master/slaveを個別設定（１ホストクラスタ等）の場合はmaster・slaveの両方実行
+    1. (初回のみ)イメージ作成  
         `docker-compose build`
-    1. （任意）sqlの初期データの追加  
+    1. (任意)sqlの初期データの追加  
         - `./mnt/sh_init/`の`masetr`と`slave`にdumpその他データを入れておけばコンテナ生成時にデータが追加される。  
         (ファイル名昇順で実施されるため注意。基本はナンバリングで管理が無難)  
     1. コンテナ生成
@@ -32,7 +32,17 @@ sudo コマンドはwindowsの管理者権限に置き換えて実施
         - 1ホストでmaster/slave構成したい場合  
         `sudo python3 init.py -n all`  
 
-- ダンプ・リストア（レプリケーションのアタッチ処理兼用）
+- ダンプ・リストア
     - ダンプ作成  
-    ``
+        `python3 rep/dump.py`  
+        - 1ホストクラスタの場合は下記のようにオプションでnode強制  
+            `python3 rep/dump.py -n master`  
+            その他オプション  
+            - `--all` or `-a`: `--all-databases`でdump作成  
+            - `--compress` or `-c`: 作成されたdumpのzip圧縮ファイルも作成  
+    - リストア（レプリケーションのデタッチ・アタッチ処理兼用）  
+        `python3 rep/restore.py`  
+        - 1ホストクラスタの場合は下記のようにオプションでnode強制  
+            `python3 rep/restore.py -n master`  
+        - slaveノードで実施した場合のみデタッチとアタッチリストアの前後に実施される  
     

@@ -31,7 +31,7 @@ def main(_args):
     if node == "":
         print(f"[error] node type not set.")
         sys.exit()
-    container = f"app-mysql-{node}"
+    container = f"node-mysql-{node}"
 
     dk_cmd = f"docker exec -it {container}"
     mysql_cmd = f"{dk_cmd} mysql {envs['OPTROOT']}"

@@ -32,7 +32,7 @@ def main(_args):
         print(f"[error] node type not set.")
         sys.exit()
 
-    container = f"app-mysql-{node}"
+    container = f"node-mysql-{node}"
     dir_dump = abspath(join(dir_base, "mysql", "vol", node, "dump"))
 
     fn.input_y(f"start to get {container} dump. (y/*):")
