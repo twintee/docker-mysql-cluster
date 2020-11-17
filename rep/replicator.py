@@ -76,19 +76,6 @@ def getdump_docker(_container, _dir_dump, _mysql_auth, _database, _compress=None
     for line in cmdrun(_cmd=[f"{mysql_cmd} -e 'flush tables with read lock'"]):
         sys.stdout.write(line)
 
-    # # mysql status取得
-    # log_file = None
-    # log_pos = None
-    # print("\n---------- get replication status")
-    # for line in cmdrun(_cmd=[f"{mysql_cmd} -e 'show master status\\G'"]):
-    #     sys.stdout.write(line)
-    #     if "File:" in line:
-    #         spl = line.split(":")
-    #         log_file = spl[1].strip()
-    #     if "Position:" in line:
-    #         spl = line.split(":")
-    #         log_pos = spl[1].strip()
-
     ret = None
     print("\n---------- get dump data")
     stmp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
