@@ -17,7 +17,7 @@
     - slaveを作る場合  
     `python3 config.py slave`  
     - master/slaveを１ホストで作る場合は上記コマンドを両方実施
-1. イメージ作成
+1. イメージ作成  
     `docker-compose build`
 1. コンテナ生成
     - configで設定したnodeが作られる(master or slave)
