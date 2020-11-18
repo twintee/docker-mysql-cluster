@@ -1,6 +1,6 @@
 FROM mysql:8.0
 
-COPY _org/.bashrc /root
+COPY ./.bashrc /root
 
 # aptパッケージインストール
 RUN apt-get update && \

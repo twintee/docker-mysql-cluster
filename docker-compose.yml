@@ -3,7 +3,7 @@ version: '2'
 services:
 
   db-master:
-    build: .
+    build: mysql
     image: app-mysql
     container_name: node-mysql-master
     env_file: .env
@@ -24,7 +24,7 @@ services:
       - seccomp:unconfined
 
   db-slave:
-    build: .
+    build: mysql
     image: app-mysql
     container_name: node-mysql-slave
     env_file: .env
