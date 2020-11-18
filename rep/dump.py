@@ -33,7 +33,7 @@ def main(_args):
         sys.exit()
 
     container = f"node-mysql-{node}"
-    dir_dump = abspath(join(dir_base, "mysql", "vol", node, "dump"))
+    dir_dump = abspath(join(dir_base, "vol", node, "dump"))
 
     fn.input_y(f"start to get {container} dump. (y/*):")
     database = envs['MYSQL_DATABASE']

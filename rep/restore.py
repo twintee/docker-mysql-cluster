@@ -50,7 +50,7 @@ def main(_args):
                 sys.stdout.write(line)
 
     # リストア対象の指定
-    dir_dump = abspath(join(dir_base, "mysql", "vol", node, "dump"))
+    dir_dump = abspath(join(dir_base, "vol", node, "dump"))
     print("\n----- dump directories")
     for ref in os.listdir(dir_dump):
         if isdir(join(dir_dump, ref)):

@@ -62,7 +62,7 @@ def setjson(_dist: str, _settings):
     _settings : dict
         save target dict
     """
-    with open(_dist, "w", encoding="utf-8") as dist:
+    with open(_dist, "w", encoding="utf-8", newline="\n") as dist:
         json.dump(_settings, dist, indent=4, ensure_ascii=False)
 
 def setparam(_params, _key, _default=""):
@@ -94,7 +94,7 @@ def setenv(_params, _dst):
         if lines != "":
             lines += "\n"
         lines += f"{k}={v}"
-    with open(_dst, mode='w') as f:
+    with open(_dst, mode='w', newline="\n") as f:
         f.write(lines)
 
 def update_file(_params, _org, _fix, _dst=None):
@@ -123,7 +123,7 @@ def update_file(_params, _org, _fix, _dst=None):
         for key, val in _params.items():
             txt = str.replace(txt, f"{_fix}{key}{_fix}", val)
     # ファイル名保存
-    with open(target, mode="w", encoding="utf8") as f:
+    with open(target, mode="w", encoding="utf8", newline="\n") as f:
         f.write(txt)
 
 def rmdir(_ref):

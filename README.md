@@ -41,9 +41,16 @@
             その他オプション  
             - `--all` or `-a`: `--all-databases`でdump作成  
             - `--compress` or `-c`: 作成されたdumpのzip圧縮ファイルも作成  
-    - リストア（レプリケーションのデタッチ・アタッチ処理兼用）  
+    - リストア(レプリケーションのデタッチ・アタッチ処理兼用)  
         `python3 rep/restore.py`  
         - 1ホストクラスタの場合は下記のようにオプションでnode強制  
             `python3 rep/restore.py -n master`  
         - slaveノードで実施した場合のみデタッチとアタッチリストアの前後に実施される  
-    
+    - (slave限定)デタッチ  
+        `python3 rep/detach.py`  
+        - 1ホストクラスタの場合は下記のようにオプションで強制  
+            `python3 rep/detach.py -f`  
+    - (slave限定)アタッチ  
+        `python3 rep/attach.py`  
+        - 1ホストクラスタの場合は下記のようにオプションで強制  
+            `python3 rep/attach.py -f`  
