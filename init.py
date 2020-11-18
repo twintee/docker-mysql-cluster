@@ -47,7 +47,7 @@ def main(_args):
         target = f"db-{node}"
 
     # サービス作成
-    for line in fn.cmdlines(_cmd=f"docker-compose up -d {target}"):
+    for line in fn.cmdlines(_cmd=f"docker-compose up -d {target}", _encode="utf8"):
         sys.stdout.write(line)
 
     # パーミッション調整(windows未検証)
