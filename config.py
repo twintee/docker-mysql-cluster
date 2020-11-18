@@ -45,12 +45,14 @@ def main(_args):
     fn.setenv(params, env_dst)
 
     # confのコピー
-    conf_org = join(dir_scr, '_org', 'conf', _args.node, 'rep.cnf')
-    dir_conf = join(dir_scr, 'mnt', 'conf', _args.node)
-    if not isdir(dir_conf):
-        os.makedirs(dir_conf)
-    conf_dst = join(dir_conf, 'rep.cnf')
-    fn.update_file(params, conf_org, '___', conf_dst)
+    for ref in ["master", "slave"]:
+        conf_org = join(dir_scr, '_org', 'conf', ref, 'rep.cnf')
+        dir_conf = join(dir_scr, 'mnt', 'conf', ref)
+        if not isdir(dir_conf):
+            os.makedirs(dir_conf)
+        fn.update_file(params, conf_org, '___', join(dir_conf, 'rep.cnf'))
+        # fn.chmodr(dir_conf, 0o644)
+        # fn.chownr(dir_conf, "root", "root")
 
     # mysqlのログイン用ファイルコピー
     users = ["root", "rep", "user"]
@@ -62,13 +64,15 @@ def main(_args):
         opt_org = join(dir_opt_org, f".opt{user}")
         opt_dst = join(dir_opt, f".opt{user}")
         fn.update_file(params, opt_org, '___', opt_dst)
+    # fn.chmodr(dir_opt, 0o644)
+    # fn.chownr(dir_opt, "root", "root")
 
     for k,v in params.items():
         print(f"{k}={v}")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='set env params')
-    parser.add_argument('node', help="(option) force node type 'master' or 'slave' or 'all'")
+    parser.add_argument('node', help="(option) force node type 'master' or 'slave'")
     args = parser.parse_args()
 
     if not args.node in ["master", "slave"]:

@@ -3,6 +3,7 @@
 
 import os
 import sys
+import time
 from os.path import join, dirname, abspath, isfile, isdir
 import argparse
 
@@ -45,9 +46,25 @@ def main(_args):
     if node != "all":
         target = f"db-{node}"
 
-    # コンテナ作成
-    for line in fn.cmdlines(_cmd=f"docker-compose up -d {target}", _encode='utf8'):
+    # サービス作成
+    for line in fn.cmdlines(_cmd=f"docker-compose up -d {target}"):
         sys.stdout.write(line)
+
+    # パーミッション調整(windows未検証)
+    if os.name == "nt":
+        nodes = ["node-mysql-master", "node-mysql-slave"]
+        if node != "all":
+            nodes = [f"node-mysql-{node}"]
+        for ref in nodes:
+            for line in fn.cmdlines(_cmd=f"docker exec -it {ref} chmod -R 664 /etc/mysql/conf.d"):
+                sys.stdout.write(line)
+            for line in fn.cmdlines(_cmd=f"docker exec -it {ref} chmod -R 664 /tmp/common/opt"):
+                sys.stdout.write(line)
+            fn.rmdir(join(dir_scr, "vol", node, "data"), True)
+        # サービス作成
+        for line in fn.cmdlines(_cmd=f"docker-compose restart {target}"):
+            sys.stdout.write(line)
+
 
 if __name__ == "__main__":
 

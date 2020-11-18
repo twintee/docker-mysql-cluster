@@ -1,4 +1,5 @@
 import os
+from os import truncate
 from os.path import join, dirname, isfile, isdir, abspath
 import sys
 import shutil
@@ -126,13 +127,28 @@ def update_file(_params, _org, _fix, _dst=None):
     with open(target, mode="w", encoding="utf8", newline="\n") as f:
         f.write(txt)
 
-def rmdir(_ref):
+def rmdir(_ref, _skip=False):
     if isdir(_ref):
-        _input = input(f"remove [{_ref}]. ok? (y/*) :").lower()
-        if _input in ["y", "yes"]:
+        rm_ref = False
+        if _skip:
+            rm_ref = True
+        else:
+            _input = input(f"remove [{_ref}]. ok? (y/*) :").lower()
+            if _input in ["y", "yes"]:
+                rm_ref = True
+        if rm_ref:
             # ボリューム削除
             print(f"[info] remove {_ref}.")
             shutil.rmtree(_ref)
+
+def chownr(_ref, _owner=None, _group=None, _self=True):
+    for root, dirs, files in os.walk(_ref):
+        for d in dirs:
+            shutil.chown(os.path.join(root, d), _owner, _group)
+        for f in files:
+            shutil.chown(os.path.join(root, f), _owner, _group)
+    if _self:
+        shutil.chown(_ref, _owner, _group)
 
 def chmodr(_ref, _permission, _self=True):
     for root, dirs, files in os.walk(_ref):

@@ -4,11 +4,8 @@
 私用で作ったmysql8系のクラスタノード作成用docker-composeとその他諸々  
 基本pythonでコンテナの外から制御したい  
 
-## 🌏 検証済み環境
+## 🌏 動作環境
 - ubuntu :16.*, 18.*
-    windowsも問題ないと思うが以下注意  
-    - sudo コマンドはwindowsの管理者権限に置き換えて実施  
-    - `git config --global core.autocrlf input`で改行設定変えてからこのリポジトリをclone
 
 ## ⚙ 使用法
 - ノード生成
@@ -38,9 +35,10 @@
         `python3 rep/dump.py`  
         - 1ホストクラスタの場合は下記のようにオプションでnode強制  
             `python3 rep/dump.py -n master`  
-            その他オプション  
-            - `--all` or `-a`: `--all-databases`でdump作成  
-            - `--compress` or `-c`: 作成されたdumpのzip圧縮ファイルも作成  
+            - オプション  
+                - `--all` or `-a`: `--all-databases`でdump作成  
+                - `--compress` or `-c`: 作成されたdumpのzip圧縮ファイルも作成  
+                - `--node` or `-n`: 1ホストクラスタ時に使用。ノード強制  
     - リストア(レプリケーションのデタッチ・アタッチ処理兼用)  
         `python3 rep/restore.py`  
         - 1ホストクラスタの場合は下記のようにオプションでnode強制  
@@ -48,9 +46,11 @@
         - slaveノードで実施した場合のみデタッチとアタッチリストアの前後に実施される  
     - (slave限定)デタッチ  
         `python3 rep/detach.py`  
-        - 1ホストクラスタの場合は下記のようにオプションで強制  
-            `python3 rep/detach.py -f`  
+        - オプション  
+            - `--node` or `-n`: 1ホストクラスタ時に使用。ノード強制  
     - (slave限定)アタッチ  
         `python3 rep/attach.py`  
-        - 1ホストクラスタの場合は下記のようにオプションで強制  
-            `python3 rep/attach.py -f`  
+        - オプション  
+            - `--file` or `-f`: ログファイル指定  
+            - `--pos` or `-p`: ログポジション指定  
+            - `--node` or `-n`: 1ホストクラスタ時に使用。ノード強制  

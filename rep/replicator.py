@@ -98,7 +98,7 @@ mysqldump {_mysql_auth} \
 --flush-logs \
 --events > /tmp/dump/{stmp}/bin.dump\
 \""
-    for line in cmdrun(_cmd=[dump_cmd], _encode="utf8"):
+    for line in cmdrun(_cmd=[dump_cmd]):
         sys.stdout.write(line)
 
     # change master
