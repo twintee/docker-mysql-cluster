@@ -9,9 +9,6 @@
 
 ## ⚙ 使用法
 - ノード生成
-    1. 必要モジュール
-        - python-dotenv  
-        `pip install python-dotenv`
     1. `config.py`を実行。応答で必要情報を.envに書き出したり情報を付与したマウント用ファイルを生成する。  
         - masterを作る場合  
         `python3 config.py master`  

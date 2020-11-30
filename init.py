@@ -7,8 +7,6 @@ import time
 from os.path import join, dirname, abspath, isfile, isdir
 import argparse
 
-from dotenv import load_dotenv
-
 dir_scr = os.path.abspath(os.path.dirname(__file__))
 import helper as fn
 
