@@ -29,9 +29,9 @@
 
 - ダンプ・リストア
     - ダンプ作成  
-        `python3 rep/dump.py`  
+        `sudo python3 rep/dump.py`  
         - 1ホストクラスタの場合は下記のようにオプションでnode強制  
-            `python3 rep/dump.py -n master`  
+            `sudo python3 rep/dump.py -n master`  
             - オプション  
                 - `--all` or `-a`: `--all-databases`でdump作成  
                 - `--compress` or `-c`: 作成されたdumpのzip圧縮ファイルも作成  
@@ -39,7 +39,7 @@
     - リストア(レプリケーションのデタッチ・アタッチ処理兼用)  
         `python3 rep/restore.py`  
         - 1ホストクラスタの場合は下記のようにオプションでnode強制  
-            `python3 rep/restore.py -n master`  
+            `python3 rep/restore.py -n slave`  
         - slaveノードで実施した場合のみデタッチとアタッチリストアの前後に実施される  
     - (slave限定)デタッチ  
         `python3 rep/detach.py`  
@@ -51,3 +51,16 @@
             - `--file` or `-f`: ログファイル指定  
             - `--pos` or `-p`: ログポジション指定  
             - `--node` or `-n`: 1ホストクラスタ時に使用。ノード強制  
+
+## 💨 お手軽１ホストクラスタ構築
+- ノード作成
+    `python3 config.py master`  
+    すべてenterで完了  
+    `sudo python3 init.py -n all`  
+    すべてyで完了  
+    `sudo python3 rep/dump.py -n master`  
+    すべてyで完了
+    `sudo cp -r vol/master/dump/{任意のdump} vol/slave/dump` 
+    `python3 rep/restore.py -n slave`  
+    上記でコピーしたdumpを指定  
+    masterにattachするか聞かれたらy
